@@ -1,5 +1,10 @@
 package br.com.caelum.financas.service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
+
+@Singleton
 public class Agendador {
 
 	private static int totalCriado;
@@ -15,4 +20,14 @@ public class Agendador {
 		}
 	}
 
+	@PostConstruct
+	void posConstrucao() {
+        System.out.println("criando agendador");
+        totalCriado++;
+    }
+
+    @PreDestroy
+    void preDestruicao() {
+        System.out.println("destruindo agendador");
+    }
 }
