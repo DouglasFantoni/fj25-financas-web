@@ -1,13 +1,16 @@
 package br.com.caelum.financas.service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
+import javax.annotation.Resource;
+import javax.ejb.*;
 
 @Singleton
+@Startup
 public class Agendador {
 
 	private static int totalCriado;
+
+	@Resource
+	private TimerService timerService;
 
 	public void executa() {
 		System.out.printf("%d instancias criadas %n", totalCriado);
@@ -20,14 +23,24 @@ public class Agendador {
 		}
 	}
 
-	@PostConstruct
-	void posConstrucao() {
-        System.out.println("criando agendador");
-        totalCriado++;
+	public void agenda(String expressaoMinutos, String expressaoSegundos) {
+
+        ScheduleExpression expression = new ScheduleExpression();
+        expression.hour("*");
+        expression.minute(expressaoMinutos);
+        expression.second(expressaoSegundos);
+
+        TimerConfig config = new TimerConfig();
+        config.setInfo(expression.toString());
+        config.setPersistent(false);
+
+        timerService.createCalendarTimer(expression, config);
+
+        System.out.println("Agendamento: " + expression);
     }
 
-    @PreDestroy
-    void preDestruicao() {
-        System.out.println("destruindo agendador");
+    @Timeout
+    public void verificacaoPeriodicaSeHaNovasContas(Timer timer) {
+	    System.out.println(timer.getInfo());
     }
 }

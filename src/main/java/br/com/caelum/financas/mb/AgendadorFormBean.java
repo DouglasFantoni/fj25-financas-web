@@ -1,6 +1,9 @@
 package br.com.caelum.financas.mb;
 
+import br.com.caelum.financas.service.Agendador;
+
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
@@ -9,10 +12,12 @@ public class AgendadorFormBean {
 
 	private String expressaoMinutos;
 	private String expressaoSegundos;
-	
+
+	@Inject
+	private Agendador agendador;
 
 	public void agendar() {
-		
+		agendador.agenda(expressaoMinutos, expressaoSegundos);
 	}
 
 	public String getExpressaoMinutos() {
@@ -30,5 +35,4 @@ public class AgendadorFormBean {
 	public void setExpressaoSegundos(String expressaoSegundos) {
 		this.expressaoSegundos = expressaoSegundos;
 	}
-
 }
