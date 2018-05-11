@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+@Cacheable
 @Entity
 public class Movimentacao {
 

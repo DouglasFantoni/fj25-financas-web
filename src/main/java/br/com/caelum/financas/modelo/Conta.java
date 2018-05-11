@@ -3,6 +3,9 @@ package br.com.caelum.financas.modelo;
 import javax.persistence.*;
 import java.util.List;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Cacheable
 @Entity
 public class Conta {
@@ -15,6 +18,7 @@ public class Conta {
 	private String numero;
 	private String banco;
 
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 	@OneToMany(mappedBy = "conta")
 	private List<Movimentacao> movimentacoes;
 
