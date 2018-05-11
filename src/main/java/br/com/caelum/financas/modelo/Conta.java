@@ -3,6 +3,7 @@ package br.com.caelum.financas.modelo;
 import javax.persistence.*;
 import java.util.List;
 
+@Cacheable
 @Entity
 public class Conta {
 
