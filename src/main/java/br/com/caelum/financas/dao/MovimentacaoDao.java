@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -17,10 +18,11 @@ import br.com.caelum.financas.modelo.ValorPorMesEAno;
 @Stateless
 public class MovimentacaoDao implements Serializable {
 
-    @PersistenceContext
+    @Inject
 	EntityManager manager;
 
 	public void adiciona(Movimentacao movimentacao) {
+	    manager.joinTransaction();
 		this.manager.persist(movimentacao);
 
 		if(movimentacao.getValor().compareTo(BigDecimal.ZERO) < 0) {
@@ -37,6 +39,7 @@ public class MovimentacaoDao implements Serializable {
 	}
 
 	public void remove(Movimentacao movimentacao) {
+	    manager.joinTransaction();
 		Movimentacao movimentacaoParaRemover = this.manager.find(Movimentacao.class, movimentacao.getId());
 		this.manager.remove(movimentacaoParaRemover);
 	}
@@ -93,5 +96,12 @@ public class MovimentacaoDao implements Serializable {
         query.setParameter("tipoMovimentacao", tipo);
 
         return query.getResultList();
+    }
+
+    public List<Movimentacao> listaComCategorias() {
+	    String jpql = "select distinct m from Movimentacao m " +
+                "left join fetch m.categorias";
+
+	    return manager.createQuery(jpql, Movimentacao.class).getResultList();
     }
 }

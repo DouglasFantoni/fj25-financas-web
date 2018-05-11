@@ -2,6 +2,7 @@ package br.com.caelum.financas.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Movimentacao {
 	private Conta conta;
 
 	@ManyToMany
-	private List<Categoria> categorias;
+	private List<Categoria> categorias = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;

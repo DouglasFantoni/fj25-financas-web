@@ -57,6 +57,7 @@ public class MovimentacoesBean implements Serializable {
 	public void adicionaCategoria() {
 		if(this.categoriaId != null && this.categoriaId > 0) {
 			Categoria categoria = categoriaDao.busca(categoriaId);
+            System.out.println("Adicionando categoria " + categoria + " na lista");
 			this.movimentacao.getCategorias().add(categoria);
 		}
 	}
