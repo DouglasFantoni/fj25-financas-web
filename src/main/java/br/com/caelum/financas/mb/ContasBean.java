@@ -1,14 +1,13 @@
 package br.com.caelum.financas.mb;
 
-import java.io.Serializable;
-import java.util.List;
-
 import br.com.caelum.financas.dao.ContaDao;
 import br.com.caelum.financas.modelo.Conta;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
@@ -44,6 +43,9 @@ public class ContasBean implements Serializable {
 	}
 
 	public List<Conta> getContas() {
+	    if(contas == null) {
+            this.contas = contaDao.lista();
+        }
         System.out.println("Listando as contas");
         return this.contas;
 	}
